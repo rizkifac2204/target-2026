@@ -1,6 +1,6 @@
 {
-  "name": "hope",
-  "version": "0.1.0",
+  "name": "target-2026",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
