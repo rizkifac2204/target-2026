@@ -1,27 +1,54 @@
-import { prisma } from "./prisma";
+import prismaCtx from "./prisma";
 
-export async function getAdmin(params) {
-  return prisma.admin.findMany({
+export async function getAdmin() {
+  return prismaCtx.admin.findMany({
+    where: {
+      NOT: { id: 1 },
+    },
     orderBy: [{ level_id: "asc" }, { nama: "asc" }],
     include: { level: true },
   });
 }
 
-// import { prisma } from "./lib/prisma";
+export async function getAdminDetailById(id) {
+  const adminId = Number(id);
+  if (!Number.isInteger(adminId) || adminId === 1) return null;
 
-// async function main() {
-//   // Example: Fetch all records from a table
-//   // Replace 'user' with your actual model name
-//   const allUsers = await prisma.user.findMany();
-//   console.log("All users:", JSON.stringify(allUsers, null, 2));
-// }
+  return prismaCtx.admin.findUnique({
+    where: { id: adminId },
+    include: { level: true },
+  });
+}
 
-// main()
-//   .then(async () => {
-//     await prisma.$disconnect();
-//   })
-//   .catch(async (e) => {
-//     console.error(e);
-//     await prisma.$disconnect();
-//     process.exit(1);
-//   });
+// Cek admin berdasarkan email, dan abaikan jika ID cocok (untuk validasi unik)
+export async function getAdminDetailByEmail(email, excludeId = null) {
+  return prismaCtx.admin.findFirst({
+    where: {
+      email: String(email),
+      ...(excludeId && { NOT: { id: Number(excludeId) } }),
+    },
+  });
+}
+
+export async function createAdmin(data) {
+  return prismaCtx.admin.create({ data });
+}
+
+export async function updateAdmin(id, data) {
+  const parsedId = Number(id);
+  if (!Number.isInteger(parsedId)) return null;
+
+  return prismaCtx.admin.update({
+    where: { id: parsedId },
+    data,
+  });
+}
+
+export async function deleteAdmin(id) {
+  const parsedId = Number(id);
+  if (!Number.isInteger(parsedId) || parsedId === 1) return null;
+
+  return prisma.admin.delete({
+    where: { id: parsedId },
+  });
+}

@@ -10,15 +10,15 @@ const adapter = new PrismaMariaDb({
   connectionLimit: 5,
 });
 
-let prisma;
+let prismaCtx;
 
 if (process.env.NODE_ENV === "production") {
-  prisma = new PrismaClient({ adapter });
+  prismaCtx = new PrismaClient({ adapter });
 } else {
-  if (!global.prisma) {
-    global.prisma = new PrismaClient({ adapter });
+  if (!global.prismaCtx) {
+    global.prismaCtx = new PrismaClient({ adapter });
   }
-  prisma = global.prisma;
+  prismaCtx = global.prismaCtx;
 }
 
-export { prisma };
+export default prismaCtx;

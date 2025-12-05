@@ -19,10 +19,13 @@
     "jwt-decode": "^4.0.0",
     "nanoid": "^5.1.6",
     "next": "16.0.7",
+    "pino": "^10.1.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-toastify": "^11.0.5",
+    "rotating-file-stream": "^3.2.7",
     "sharp": "^0.34.5",
+    "speakeasy": "^2.0.0",
     "yup": "^1.7.1"
   },
   "devDependencies": {
